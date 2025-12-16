@@ -1,0 +1,61 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  role      String   @default("user")
+  password  String 
+  createdAt DateTime @default(now())
+  artikel   Artikel[]
+}
+
+model Artikel {
+  id           Int      @id @default(autoincrement())
+  markdownText String   @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  userId       Int
+  isActive     Boolean  @default(true)
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Ticket {
+  id       Int     @id @default(autoincrement())
+  name     String
+  preis    Float
+  isActive Boolean @default(true)
+}
+
+model HomepageBesuchPlanen {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String  @db.Text
+  image       String?
+  link        String?
+}
+
+model HomepageWhatsNew {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String  @db.Text
+  image       String?
+  link        String?
+}
+
+model Angebote {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @db.Text
+  startTime   DateTime
+  endTime     DateTime
+  link        String?
+  isActive    Boolean  @default(true)
+}
