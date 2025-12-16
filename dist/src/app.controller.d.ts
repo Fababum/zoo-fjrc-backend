@@ -1,16 +1,42 @@
 import { AppService } from './app.service';
-import { PrismaService } from './prisma.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 export declare class AppController {
     private readonly appService;
-    private readonly prisma;
-    constructor(appService: AppService, prisma: PrismaService);
-    getHello(): string;
-    getUsers(): Promise<{
+    constructor(appService: AppService);
+    findAll(): Promise<{
         id: number;
         email: string;
         name: string;
         role: string;
-        password: string;
         createdAt: Date;
     }[]>;
+    findOne(id: number): Promise<{
+        id: number;
+        email: string;
+        name: string;
+        role: string;
+        createdAt: Date;
+    }>;
+    create(createUserDto: CreateUserDto): Promise<{
+        id: number;
+        email: string;
+        name: string;
+        role: string;
+        createdAt: Date;
+    }>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<{
+        id: number;
+        email: string;
+        name: string;
+        role: string;
+        createdAt: Date;
+    }>;
+    remove(id: number): Promise<{
+        id: number;
+        email: string;
+        name: string;
+        role: string;
+        createdAt: Date;
+    }>;
 }
