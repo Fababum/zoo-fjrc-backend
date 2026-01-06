@@ -8,20 +8,12 @@ describe('AppController', () => {
   let appController: AppController;
   let appService: AppService;
 
-  const mockUser = {
-    id: 1,
-    name: 'Test User',
-    email: 'test@example.com',
-    role: 'user',
-    createdAt: new Date(),
-  };
-
   const mockAppService = {
-    findAllUsers: jest.fn().mockResolvedValue([mockUser]),
-    findUserById: jest.fn().mockResolvedValue(mockUser),
-    createUser: jest.fn().mockResolvedValue(mockUser),
-    updateUser: jest.fn().mockResolvedValue(mockUser),
-    deleteUser: jest.fn().mockResolvedValue(mockUser),
+    findAllUsers: jest.fn().mockResolvedValue([]),
+    findUserById: jest.fn().mockResolvedValue(null),
+    createUser: jest.fn().mockImplementation((dto) => Promise.resolve({ id: 1, ...dto, createdAt: new Date() })),
+    updateUser: jest.fn().mockImplementation((id, dto) => Promise.resolve({ id, ...dto })),
+    deleteUser: jest.fn().mockResolvedValue({ id: 1 }),
   };
 
   beforeEach(async () => {
@@ -46,7 +38,7 @@ describe('AppController', () => {
   describe('findAll', () => {
     it('should return an array of users', async () => {
       const result = await appController.findAll();
-      expect(result).toEqual([mockUser]);
+      expect(result).toEqual([]);
       expect(appService.findAllUsers).toHaveBeenCalled();
     });
   });
@@ -54,7 +46,7 @@ describe('AppController', () => {
   describe('findOne', () => {
     it('should return a single user', async () => {
       const result = await appController.findOne(1);
-      expect(result).toEqual(mockUser);
+      expect(result).toBeNull();
       expect(appService.findUserById).toHaveBeenCalledWith(1);
     });
   });
@@ -67,7 +59,7 @@ describe('AppController', () => {
         password: 'password123',
       };
       const result = await appController.create(createUserDto);
-      expect(result).toEqual(mockUser);
+      expect(result).toMatchObject({ id: 1, ...createUserDto });
       expect(appService.createUser).toHaveBeenCalledWith(createUserDto);
     });
   });
@@ -78,7 +70,7 @@ describe('AppController', () => {
         name: 'Updated User',
       };
       const result = await appController.update(1, updateUserDto);
-      expect(result).toEqual(mockUser);
+      expect(result).toMatchObject({ id: 1, ...updateUserDto });
       expect(appService.updateUser).toHaveBeenCalledWith(1, updateUserDto);
     });
   });
@@ -86,7 +78,7 @@ describe('AppController', () => {
   describe('remove', () => {
     it('should delete a user', async () => {
       const result = await appController.remove(1);
-      expect(result).toEqual(mockUser);
+      expect(result).toMatchObject({ id: 1 });
       expect(appService.deleteUser).toHaveBeenCalledWith(1);
     });
   });

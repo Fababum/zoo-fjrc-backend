@@ -7,7 +7,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class AppService {
   constructor(private readonly prisma: PrismaService) { }
 
-  // Get all users
   async findAllUsers() {
     return this.prisma.user.findMany({
       select: {
@@ -20,7 +19,6 @@ export class AppService {
     });
   }
 
-  // Get user by ID
   async findUserById(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },
@@ -40,7 +38,6 @@ export class AppService {
     return user;
   }
 
-  // Create new user
   async createUser(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
       data: createUserDto,
@@ -54,7 +51,6 @@ export class AppService {
     });
   }
 
-  // Update user
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     // Check if user exists
     await this.findUserById(id);
@@ -72,7 +68,6 @@ export class AppService {
     });
   }
 
-  // Delete user
   async deleteUser(id: number) {
     // Check if user exists
     await this.findUserById(id);

@@ -16,25 +16,21 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  // GET /users - Get all users
   @Get()
   async findAll() {
     return this.appService.findAllUsers();
   }
 
-  // GET /users/:id - Get user by ID
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.appService.findUserById(id);
   }
 
-  // POST /users - Create new user
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.appService.createUser(createUserDto);
   }
 
-  // PUT /users/:id - Update user
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -43,7 +39,6 @@ export class AppController {
     return this.appService.updateUser(id, updateUserDto);
   }
 
-  // DELETE /users/:id - Delete user
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.appService.deleteUser(id);
