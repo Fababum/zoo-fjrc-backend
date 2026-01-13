@@ -1,16 +1,17 @@
 import {
   Controller,
   Get,
-  Post,
   Put,
   Delete,
   Body,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { AdminGuard } from './auth/guards/admin.guard';
 
 @Controller('users')
 export class AppController {
@@ -26,11 +27,7 @@ export class AppController {
     return this.appService.findUserById(id);
   }
 
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    return this.appService.createUser(createUserDto);
-  }
-
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -39,8 +36,10 @@ export class AppController {
     return this.appService.updateUser(id, updateUserDto);
   }
 
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     return this.appService.deleteUser(id);
   }
 }
+
