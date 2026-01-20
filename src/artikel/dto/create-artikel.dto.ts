@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, IsOptional, IsIn } from 'class-validator';
 
 export class CreateArtikelDto {
   @IsString()
@@ -8,4 +8,9 @@ export class CreateArtikelDto {
   @IsInt()
   @IsNotEmpty()
   userId: number;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['de', 'en', 'fr', 'it'])
+  lang?: 'de' | 'en' | 'fr' | 'it';
 }

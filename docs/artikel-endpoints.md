@@ -52,6 +52,10 @@ curl -X DELETE http://localhost:3000/artikel/1
 {
   "id": 1,
   "markdownText": "# Article Title\n\nContent here...",
+  "markdownTextDe": "# Artikel Titel\n\nInhalt...",
+  "markdownTextEn": "# Article Title\n\nContent here...",
+  "markdownTextFr": "# Titre de l'article\n\nContenu...",
+  "markdownTextIt": "# Titolo dell'articolo\n\nContenuto...",
   "userId": 1,
   "isActive": true,
   "createdAt": "2026-01-13T10:00:00.000Z",

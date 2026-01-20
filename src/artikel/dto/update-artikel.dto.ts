@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsBoolean, IsIn } from 'class-validator';
 
 export class UpdateArtikelDto {
   @IsString()
@@ -8,4 +8,9 @@ export class UpdateArtikelDto {
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(['de', 'en', 'fr', 'it'])
+  lang?: 'de' | 'en' | 'fr' | 'it';
 }
